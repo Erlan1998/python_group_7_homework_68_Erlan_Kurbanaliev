@@ -45,6 +45,7 @@ class Article(BaseModel):
         return f'{self.id}. {self.author}: {self.title}'
 
 
+
 class Comment(BaseModel):
     article = models.ForeignKey(
         'article.Article',
