@@ -8,7 +8,7 @@ from django.views.decorators.csrf import ensure_csrf_cookie
 @ensure_csrf_cookie
 def get_token_view(request, *args, **kwargs):
     if request.method == 'GET':
-        return HttpResponse()
+        return HttpResponse(json.dumps({"token":"ok"}))
     return HttpResponseNotAllowed('Only GET request are allowed')
 
 
@@ -16,7 +16,7 @@ def api_add(request):
     if request.body:
         try:
             response_data = json.loads(request.body)
-            add = sum(response_data.values())
+            add = int(response_data['A']) + int(response_data['B'])
             response_answer = {
                 "answer": add
             }
@@ -30,7 +30,7 @@ def subtract_api(request):
     if request.body:
         try:
             response_data = json.loads(request.body)
-            subtract = response_data['A'] - response_data['B']
+            subtract = int(response_data['A']) - int(response_data['B'])
             response_answer = {
                 "answer":  subtract
             }
@@ -45,7 +45,7 @@ def multiply_api(request):
     if request.body:
         try:
             response_data = json.loads(request.body)
-            multiply = response_data['A'] * response_data['B']
+            multiply = int(response_data['A']) * int(response_data['B'])
             response_answer = {
                 "answer":  multiply
             }
@@ -59,7 +59,7 @@ def divide_api(request):
     if request.body:
         try:
             response_data = json.loads(request.body)
-            divide = response_data['A'] / response_data['B']
+            divide = int(response_data['A']) / int(response_data['B'])
             response_answer = {
                 "answer":  divide
             }
