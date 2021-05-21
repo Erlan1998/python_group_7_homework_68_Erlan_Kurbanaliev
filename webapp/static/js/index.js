@@ -32,18 +32,18 @@ async function makeRequest(url, method='GET', body) {
 
 async function onClick(event) {
     event.preventDefault()
+    let result = document.getElementById('result')
     let a = document.getElementById('A').value
     let b = document.getElementById('B').value
     let data = {"A": a, "B": b}
     let url = event.target.dataset.url
     try{
         let res = await makeRequest(url, "POST", JSON.stringify(data))
-        console.log(res)
-        result = document.getElementById('result')
         result.innerHTML = `Результат: ${res.answer}`
     }
     catch(e){
-    console.log(e)
+        let r = await e.response.json()
+        result.innerText= r.answer
     }
 }
 

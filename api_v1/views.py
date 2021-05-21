@@ -1,4 +1,4 @@
-from django.http import HttpResponse, HttpResponseNotAllowed
+from django.http import HttpResponse, HttpResponseNotAllowed, JsonResponse
 from django.shortcuts import render
 import json
 # Create your views here.
@@ -70,11 +70,11 @@ def divide_api(request):
             return for_exept()
 
 def for_exept():
-    data = 'ERROR IN REQUEST XA XA XA'
+    data = "ВВОДИТЕ ТОЛЬКО ЦИФРЫ!"
     response_answer = {
         "answer": data
     }
-    response = HttpResponse(json.dumps(response_answer))
+    response = JsonResponse(response_answer)
     response['Content-Type'] = 'application/json'
     response.status_code = 400
     return response
