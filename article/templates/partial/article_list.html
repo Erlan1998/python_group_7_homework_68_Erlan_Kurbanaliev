@@ -19,6 +19,15 @@
             <a href="{% url 'accounts:user-detail' article.author_id %}">{{ article.author }}</a>
             | {{ article.created_at|date:"d.m.Y H:i:s" }}
         </p>
+        {% if user.is_authenticated %}
+            {% if article.pk not in liked_articles %}
+                <button id="like" onclick="onClick(event)" data-url="{% url 'article:like_article' article.pk %}"><i class="fas fa-thumbs-up" style="font-size: 20px"></i></button>
+                <p id="result"></p>
+            {% else %}
+                <button id="unlike" onclick="onClickDis(event)" data-url="{% url 'article:unlike_article' article.pk %}"><i class="fas fa-thumbs-down" style="font-size: 20px"></i></button>
+                <p id="result"></p>
+            {% endif %}
+        {% endif %}
     </div>
 
 {% empty %}
@@ -29,3 +38,4 @@
 {% if is_paginated %}
      {% include 'partial/pagination.html' %}
 {% endif %}
+<script src="https://kit.fontawesome.com/bf48221072.js" crossorigin="anonymous"></script>

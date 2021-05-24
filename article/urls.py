@@ -6,9 +6,10 @@ from article.views import (
     CreateArticleView,
     ArticleUpdateView,
     ArticleCommentCreate,
-    ArticleDeleteView
+    ArticleDeleteView,
+    UnlikeforArticle,
+    LikeforArticle
 )
-
 
 app_name = 'article'
 
@@ -18,5 +19,6 @@ urlpatterns = [
     path('<int:pk>/', ArticleView.as_view(), name='view'),
     path('<int:pk>/update', ArticleUpdateView.as_view(), name='update'),
     path('<int:pk>/delete', ArticleDeleteView.as_view(), name='delete'),
-    path('<int:pk>/comments/add/', ArticleCommentCreate.as_view(), name='comment-create')
+    path('<int:pk>/likearticle/', LikeforArticle.as_view(), name='like_article'),
+    path('<int:pk>/unlikearticle/', UnlikeforArticle.as_view(), name='unlike_article')
 ]

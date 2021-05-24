@@ -12,7 +12,7 @@ from django.urls import reverse, reverse_lazy
 from django.db.models import Q
 from django.utils.http import urlencode
 
-from article.models import Article
+from article.models import Article, ArticleLike
 from article.forms import ArticleForm, SearchForm
 
 
@@ -54,7 +54,17 @@ class IndexView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['search_form'] = self.form
-
+        user = self.request.user
+        i = []
+        for i in ArticleLike.objects.filter(id=self.kwargs.get('id')):
+            i.append(i.article.id)
+        context['like_id'] = i
+        liked_articles = []
+        if self.request.user.is_authenticated:
+            ddd = ArticleLike.objects.filter(author=self.request.user)
+        for d in ddd:
+            liked_articles.append(d.article.pk)
+        context['liked_articles'] = liked_articles
         if self.search_data:
             context['query'] = urlencode({'search_value': self.search_data})
 
