@@ -28,6 +28,7 @@ urlpatterns = [
     path('articles/', include('article.urls')),
     path('accounts/', include('accounts.urls')),
     path('api_v1/', include('api_v1.urls')),
+    path('api_v2/', include('api_v2.urls')),
     path('index/', include('webapp.urls')),
     path('', RedirectView.as_view(url=HOMEPAGE_URL, permanent=True)),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
