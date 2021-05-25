@@ -29,7 +29,16 @@
     <h2>Comments:</h2>
     {% for comment in article.comments.all %}
         <p>{{ comment.author }}: {{ comment.comment }}</p>
+            {% if user.is_authenticated %}
+            {% if comment.pk not in liked_comments %}
+                <button data-id="result{{ comment.pk }}" onclick="onClickComment(event)" data-url="{% url 'article:like_comment' comment.pk %}"><i class="fas fa-thumbs-up" style="font-size: 20px"></i></button>
+            {% else %}
+                <button data-id="result{{ comment.pk }}" onclick="unClickComment(event)" data-url="{% url 'article:unlike_comment' comment.pk %}"><i class="fas fa-thumbs-down" style="font-size: 20px"></i></button>
+            {% endif %}
+        {% endif %}
+        <p id="result{{ comment.pk }}">{{ comment.Commentlikes.count }}</p>
     {% empty %}
         <p>Нет комментариев :(</p>
     {% endfor %}
+<script src="https://kit.fontawesome.com/bf48221072.js" crossorigin="anonymous"></script>
 {% endblock content %}

@@ -76,6 +76,9 @@ class ArticleLike(models.Model):
     author = models.ForeignKey(get_user_model(), on_delete=models.PROTECT)
     article = models.ForeignKey('article.Article', related_name="Likes", on_delete=models.PROTECT)
 
+class CommentLike(models.Model):
+    author = models.ForeignKey(get_user_model(), on_delete=models.PROTECT)
+    comment = models.ForeignKey('article.Comment', related_name='Commentlikes', on_delete=models.PROTECT)
 
 class Tag(BaseModel):
     tag = models.CharField(max_length=200, verbose_name='Тэг')

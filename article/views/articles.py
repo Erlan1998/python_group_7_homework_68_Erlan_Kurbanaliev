@@ -12,7 +12,7 @@ from django.urls import reverse, reverse_lazy
 from django.db.models import Q
 from django.utils.http import urlencode
 
-from article.models import Article, ArticleLike
+from article.models import Article, ArticleLike, CommentLike
 from article.forms import ArticleForm, SearchForm
 
 
@@ -62,8 +62,8 @@ class IndexView(ListView):
         liked_articles = []
         if self.request.user.is_authenticated:
             ddd = ArticleLike.objects.filter(author=self.request.user)
-        for d in ddd:
-            liked_articles.append(d.article.pk)
+            for d in ddd:
+                liked_articles.append(d.article.pk)
         context['liked_articles'] = liked_articles
         if self.search_data:
             context['query'] = urlencode({'search_value': self.search_data})
@@ -75,6 +75,19 @@ class ArticleView(DetailView):
     model = Article
     template_name = 'articles/view.html'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        i = []
+        for i in CommentLike.objects.filter(id=self.kwargs.get('id')):
+            i.append(i.article.id)
+        context['comentlike_id'] = i
+        liked_comments = []
+        if self.request.user.is_authenticated:
+            users = CommentLike.objects.filter(author=self.request.user)
+            for us in users:
+                liked_comments.append(us.comment.pk)
+        context['liked_comments'] = liked_comments
+        return context
 
 class CreateArticleView(PermissionRequiredMixin, CreateView):
     template_name = 'articles/create.html'

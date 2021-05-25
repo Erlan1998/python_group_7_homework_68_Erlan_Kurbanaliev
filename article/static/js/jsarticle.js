@@ -14,27 +14,79 @@ async function makeRequest(url, method='GET') {
 async function onClick(event) {
     event.preventDefault()
     let button = event.currentTarget
-    let result = document.getElementById('result')
+    let id = button.dataset.id
+    let result = document.getElementById(id)
     let url = button.dataset.url
-    console.log(url)
     try{
         let res = await makeRequest(url)
-        result.innerHTML = `Результат: ${res.answer}`
+
         button.setAttribute('data-url', url.replace("likearticle", "unlikearticle"))
         button.innerHTML = '<i class="fas fa-thumbs-down" style="font-size: 20px"></i>'
-        button.onclick = onClickDis
+        button.onclick = onClickUnlice
+        result.innerText= res
+
     }
     catch(e){
         let r = await e.response.json()
-        // result.innerText= r.answer
+        result.innerText= r
     }
 }
-async function onClickDis(event) {
-
+async function onClickUnlice(event) {
+    event.preventDefault()
+    let button = event.currentTarget
+    let id = button.dataset.id
+    let result = document.getElementById(id)
+    let url = button.dataset.url
+    try{
+        let res = await makeRequest(url)
+        button.setAttribute('data-url', url.replace("unlikearticle", "likearticle"))
+        button.innerHTML = '<i class="fas fa-thumbs-up" style="font-size: 20px"></i>'
+        button.onclick = onClick
+        result.innerText= res
+    }
+    catch(e){
+        let r = await e.response.json()
+        result.innerText= r
+    }
 }
 
 
-async function tokenGet(){
-    await makeRequest('http://localhost:8000/api_v1/get_token')
+async function onClickComment(event) {
+    event.preventDefault()
+    let button = event.currentTarget
+    let id = button.dataset.id
+    let result = document.getElementById(id)
+    let url = button.dataset.url
+    try{
+        let res = await makeRequest(url)
+
+        button.setAttribute('data-url', url.replace("likecomment", "unlikecomment"))
+        button.innerHTML = '<i class="fas fa-thumbs-down" style="font-size: 20px"></i>'
+        button.onclick = unClickComment
+        result.innerText= res
+
+    }
+    catch(e){
+        let r = await e.response.json()
+        result.innerText= r
+    }
 }
-window.addEventListener('load', tokenGet)
+async function unClickComment(event) {
+    event.preventDefault()
+    let button = event.currentTarget
+    let id = button.dataset.id
+    let result = document.getElementById(id)
+    let url = button.dataset.url
+    try{
+        let res = await makeRequest(url)
+        button.setAttribute('data-url', url.replace("unlikecomment", "likecomment"))
+        button.innerHTML = '<i class="fas fa-thumbs-up" style="font-size: 20px"></i>'
+        button.onclick = onClickComment
+        result.innerText= res
+    }
+    catch(e){
+        let r = await e.response.json()
+        result.innerText= r
+    }
+}
+
