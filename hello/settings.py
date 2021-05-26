@@ -46,7 +46,7 @@ INSTALLED_APPS = [
     'accounts',
     'api_v1',
     'webapp',
-    'rest_framework'
+    'rest_framework',
 
     # Lib apps
 ]
